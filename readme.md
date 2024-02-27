@@ -1,4 +1,4 @@
-# A rudimentary passport photo generator 
+# A mediapipe powered passport photo generator 
 Uses mediapipe's multiclass selfie segmentation model to produce a passport sized photo as per Singapore passport requirements.
 
 ## Usage
