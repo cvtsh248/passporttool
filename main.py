@@ -55,17 +55,31 @@ with imageSegmenter.create_from_options(options) as segmenter:
     y_max_face, y_min_face = np.amax(face_indices[:, 0]), np.amin(face_indices[:, 0])
 
     hair_indices = np.argwhere(hair_condition)
-    y_max_hair, y_min_hair = np.amax(hair_indices[:, 0]), np.amin(hair_indices[:, 0])
-    x_max_hair, x_min_hair = np.amax(hair_indices[:, 1]), np.amin(hair_indices[:, 1])
+    if len(hair_indices) > 0:
+        y_max_hair, y_min_hair = np.amax(hair_indices[:, 0]), np.amin(hair_indices[:, 0])
+        x_max_hair, x_min_hair = np.amax(hair_indices[:, 1]), np.amin(hair_indices[:, 1])
+    else:
+        y_max_hair, y_min_hair = -1, -1
+        x_max_hair, x_min_hair = -1, -1
+    
+    if len(hair_indices) > 0:
+        total_height = round((y_max_face - y_min_hair)/0.75)
+        total_width = round((x_max_hair - x_min_hair)/0.75)
 
-    total_height = round((y_max_face - y_min_hair)/0.75)
-    total_width = round((x_max_hair - x_min_hair)/0.75)
+        y_min = round(y_min_hair - total_height*0.05)
+        y_max = round(y_max_face + total_height*0.2)
 
-    y_min = round(y_min_hair - total_height*0.05)
-    y_max = round(y_max_face + total_height*0.2)
+        x_min = round(x_min_hair - total_width*0.125)
+        x_max = round(x_max_hair + total_width*0.125)
+    else:
+        total_height = round((y_max_face - y_min_face)/0.75)
+        total_width = round((x_max_face - x_min_face)/0.75)
 
-    x_min = round(x_min_hair - total_width*0.125)
-    x_max = round(x_max_hair + total_width*0.125)
+        y_min = round(y_min_face - total_height*0.05)
+        y_max = round(y_max_face + total_height*0.2)
+
+        x_min = round(x_min_face - total_width*0.125)
+        x_max = round(x_max_face + total_width*0.125)
 
     y_max = round(y_max*((total_width/total_height)/0.77)) # Correct for aspect ratio
 
