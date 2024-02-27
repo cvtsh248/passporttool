@@ -18,8 +18,6 @@ elif len(sys.argv) == 3:
 
 if "png" not in outputPath:
     outputPath+=".png"
-elif "jpg" in outputPath:
-    print("JPG is not supported")
 
 modelPath = "models/selfie_multiclass_256x256.tflite"
 baseOptions = python.BaseOptions(model_asset_path=modelPath)
